@@ -157,9 +157,7 @@ public class ProductProvider extends ContentProvider {
     }
 
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // Get writeable database
         SQLiteDatabase database = productDbHelper.getWritableDatabase();
-        // Track the number of rows that were deleted
         int rowsDeleted;
 
         final int match = sUriMatcher.match(uri);
@@ -168,25 +166,18 @@ public class ProductProvider extends ContentProvider {
                 rowsDeleted = database.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case PRODUCT_ID:
-                // Delete a single row given by the ID in the URI
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                // For case Product_ID:
-                // Delete a single row given by the ID in the URI
                 rowsDeleted = database.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
-        // If 1 or more rows were deleted, then notify all listeners that the data at the
-        // given URI has changed
         if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        // Return the number of rows deleted
         return rowsDeleted;
     }
-
     @Override
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);

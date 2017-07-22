@@ -22,9 +22,6 @@ public class ProductContract {
         public static final String CONTENT_LIST_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PRODUCT;
 
-        /**
-         * The MIME type of the {@link #CONTENT_URI} for a single pet.
-         */
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PRODUCT;
 
@@ -36,6 +33,6 @@ public class ProductContract {
         public static String COLOUM_QUANTITY = "quantity";
         public static String COLOUM_PRICE = "price";
         public static String COLOUM_SUPPLIER = "supplier";
-        public static final String COLUMN_IMAGE = "image";
+        public static  String COLOUM_IMAGE= "image";
     }
 }

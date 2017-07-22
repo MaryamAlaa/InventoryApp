@@ -41,34 +41,33 @@ public class ProductCursorAdapter extends CursorAdapter {
         final long id = cursor.getLong(idIndex);
 
         int nameIndex = cursor.getColumnIndex(ProductEntry.COLOUM_NAME);
-        String name = cursor.getString(nameIndex);
+        String name = "Product Name: " + cursor.getString(nameIndex);
 
         int priceIndex = cursor.getColumnIndex(ProductEntry.COLOUM_PRICE);
-        int price = cursor.getInt(priceIndex);
-
+        int prices = cursor.getInt(priceIndex);
+        String price = "Price: " + String.valueOf(prices);
         int quantityIndex = cursor.getColumnIndex(ProductEntry.COLOUM_QUANTITY);
         final int quantity = cursor.getInt(quantityIndex);
 
         productSale.setFocusable(false);
-        if (quantity >= 0) {
+        if (quantity >= 1) {
             productSale.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ContentValues values = new ContentValues();
-                    values.put(ProductEntry.COLOUM_QUANTITY, quantity - 1);
-                    Uri uri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id);
-                    context.getContentResolver().update(
-                            uri,
-                            values,
-                            ProductEntry._ID + "=?",
-                            new String[]{String.valueOf(ContentUris.parseId(uri))});
-
-                }
-            });
+                                               @Override
+                                               public void onClick(View view) {
+                                                   ContentValues values = new ContentValues();
+                                                   values.put(ProductEntry.COLOUM_QUANTITY, quantity-1);
+                                                   Uri uri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, id);
+                                                   context.getContentResolver().update(
+                                                           uri,
+                                                           values,
+                                                           ProductEntry._ID + "=?",
+                                                           new String[]{String.valueOf(ContentUris.parseId(uri))});
+                                               }
+                                           }
+            );
             productName.setText(name);
-            productQuantity.setText(String.valueOf(cursor.getInt(quantityIndex)));
+            productQuantity.setText(String.format("Quantity: %s", String.valueOf(quantity)));
             productPrice.setText(String.valueOf(price));
         }
-
     }
 }
