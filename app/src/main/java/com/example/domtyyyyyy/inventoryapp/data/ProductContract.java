@@ -11,7 +11,7 @@ import android.provider.BaseColumns;
 
 public class ProductContract {
 
-    public ProductContract() {
+    private ProductContract() {
     }
 
     public static final String CONTENT_AUTHORITY = "com.example.domtyyyyyy.inventoryapp";

@@ -1,18 +1,21 @@
 package com.example.domtyyyyyy.inventoryapp;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -22,10 +25,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -33,11 +32,9 @@ import com.example.domtyyyyyy.inventoryapp.data.ProductContract.ProductEntry;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
 
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -187,8 +184,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             case R.id.action_save:
                 if (validation()) {
                     saveProduct();
+                    finish();
                 }
-                finish();
+
                 return true;
             case R.id.action_delete:
                 showDeleteConfirmationDialog();
@@ -299,13 +297,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.msg_left);
         builder.setPositiveButton(R.string.discard, discardButtonClickListener);
-        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            }
-        });
+        builder.setNegativeButton("cancel",null);
+
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -379,7 +372,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             bmOptions.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(input, null, bmOptions);
-            input.close();
 
             int imageWidth = bmOptions.outWidth;
             int imageHieght = bmOptions.outHeight;
